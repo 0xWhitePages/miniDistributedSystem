@@ -2,6 +2,7 @@ package main
 
 import (
 	"Distributed/miniDistributedSystem/log"
+	"Distributed/miniDistributedSystem/registry"
 	"Distributed/miniDistributedSystem/service"
 	"context"
 	"fmt"
@@ -11,9 +12,14 @@ import (
 func main() {
 	log.Run("./distributed.log")
 	host, port := "localhost", "4000"
+
+	r := registry.Registration{
+		ServiceName: registry.LogService,
+		ServiceURL:  fmt.Sprintf("http://%v:%v", host, port),
+	}
 	ctx, err := service.Start(
 		context.Background(),
-		"Log Service",
+		r,
 		host,
 		port,
 		log.RegisterHandlers,
